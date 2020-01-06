@@ -480,7 +480,17 @@ public class BytesBuiltins extends PythonBuiltins {
         }
 
         @Specialization
+        int find(PBytes self, Object sub, Number start, @SuppressWarnings("unused") PNone ending) {
+            return getFindNode().execute(self, sub, start, getLength(self.getSequenceStorage()));
+        }
+
+        @Specialization
         int find(PBytes self, Object sub, int start, int ending) {
+            return getFindNode().execute(self, sub, start, ending);
+        }
+
+        @Specialization
+        int find(PBytes self, Object sub, Number start, Number ending) {
             return getFindNode().execute(self, sub, start, ending);
         }
 
